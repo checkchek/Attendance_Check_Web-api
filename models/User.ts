@@ -1,6 +1,6 @@
-import { Schema, model, models } from "mongoose";
+import { Model, Schema, model, models } from "mongoose";
 
-interface IUser {
+export interface IUser {
   name: string;
   stdno: string;
   id: string;
@@ -17,4 +17,5 @@ const userSchema = new Schema<IUser>({
 });
 
 const User = models.User || model<IUser>("User", userSchema);
+
 export default User;
