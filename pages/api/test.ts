@@ -10,8 +10,7 @@ export default async function handler(
   console.log("test");
   await dbConnect();
 
-  const users = await User.find({});
-  users.remove();
+  
 
   return res.status(200).json({});
 }
