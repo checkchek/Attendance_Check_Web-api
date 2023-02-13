@@ -46,7 +46,7 @@ export default async function handler(
   });
 
   // 수강생 초기화 (생성)
-  lecture1.students = [user1];
+  lecture1.students = [user1, user3];
   lecture2.students = [user1, user2];
   lecture3.students = [user3];
 

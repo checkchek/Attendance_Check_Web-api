@@ -7,9 +7,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log("test");
   await dbConnect();
-  const lecture = await Lecture.find({ name: "C언어" });
-  console.log(lecture[0].attendance);
+
+  const users = await User.find({});
+  users.remove();
 
   return res.status(200).json({});
 }
