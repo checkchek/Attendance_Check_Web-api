@@ -29,6 +29,7 @@ export default async function handler(
   // const dateString = year + "-" + month + "-" + day;
 
   const lecture = await Lecture.findOne({ name: lectureName });
+  if (!lecture) return res.status(200).json({ stdno: stdno });
   const attendance_list = { ...lecture.attendance };
   const attendance_copy = [...attendance_list[stdno]];
   attendance_copy[week] = 0;

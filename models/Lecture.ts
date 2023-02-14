@@ -33,5 +33,5 @@ const lectureSchema = new Schema<ILecture>({
   attendance: Object,
 });
 
-const Lecture = models.Lecture || model<ILecture>("Lecture", lectureSchema);
+const Lecture = model<ILecture>("Lecture", lectureSchema);
 export default Lecture;

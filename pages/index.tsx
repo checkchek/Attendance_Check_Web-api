@@ -76,12 +76,6 @@ function Block({ title, method, url, desc, params, res }: IBlockProps) {
 }
 
 export default function Home() {
-  const obj = {
-    result: {
-      C언어: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-      네트워크: [-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-    },
-  };
   return (
     <Wrapper>
       <Block

@@ -16,6 +16,7 @@ export default async function handler(
   const stdno = String(req.query.stdno);
   const user = await User.findOne({ stdno: stdno }).populate("lectures");
 
+  console.log(user);
   let resObj: any = {};
   user.lectures.map((lecture: ILecture) => {
     resObj[lecture.name] = lecture.attendance[stdno];
