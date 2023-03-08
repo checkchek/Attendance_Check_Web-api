@@ -2,7 +2,8 @@ import { Model, Schema, model, models } from "mongoose";
 
 export interface IUser {
   name: string;
-  stdno: string;
+  std: boolean;
+  num: string;
   id: string;
   pw: string;
   lectures: string[];
@@ -10,7 +11,8 @@ export interface IUser {
 
 const userSchema = new Schema<IUser>({
   name: { type: String, required: true },
-  stdno: { type: String, required: true },
+  std: { type: Boolean, required: true },
+  num: { type: String, required: true },
   id: { type: String, required: true },
   pw: { type: String, required: true },
   lectures: [{ type: Schema.Types.ObjectId, ref: "Lecture" }],

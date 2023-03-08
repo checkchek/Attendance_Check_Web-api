@@ -1,12 +1,4 @@
-import {
-  Model,
-  Document,
-  Schema,
-  model,
-  models,
-  Types,
-  HydratedDocument,
-} from "mongoose";
+import { Document, Schema, model, models, HydratedDocument } from "mongoose";
 import { IUser } from "./User";
 
 /* example Attendance
@@ -25,12 +17,18 @@ export interface ILecture extends Document {
   name: string;
   students: HydratedDocument<IUser>[];
   attendance: IAttendance;
+  days: string[];
+  startTime: string;
+  endTime: string;
 }
 
 const lectureSchema = new Schema<ILecture>({
   name: { type: String, required: true },
   students: [{ type: Schema.Types.ObjectId, ref: "User" }],
   attendance: Object,
+  days: [{ type: String, required: true }],
+  startTime: { type: String, required: true },
+  endTime: { type: String, required: true },
 });
 
 const Lecture = models.Lecture || model<ILecture>("Lecture", lectureSchema);

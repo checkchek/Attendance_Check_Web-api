@@ -1,5 +1,7 @@
-import type {AppProps} from 'next/app';
+import dbConnect from "@/utils/db/dbConnect";
+import type { AppProps } from "next/app";
+import "../styles/reset.css";
 
-export default function App({Component, pageProps}: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
 }
