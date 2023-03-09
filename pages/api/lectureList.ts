@@ -9,9 +9,8 @@ export default async function handler(
 ) {
   dbConnect();
   console.log("lectureList");
-  const stdno = req.query.stdno;
-  console.log(stdno);
-  const user = await User.findOne({ stdno: stdno }).populate("lectures");
+  const num = req.query.num;
+  const user = await User.findOne({ num: num }).populate("lectures");
 
   const lecture_list: Array<string> = [];
   let userName;

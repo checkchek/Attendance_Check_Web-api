@@ -13,13 +13,13 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   dbConnect();
-  const stdno = String(req.query.stdno);
-  const user = await User.findOne({ stdno: stdno }).populate("lectures");
+  const num = String(req.query.num);
+  const user = await User.findOne({ num: num }).populate("lectures");
   
   console.log(user);
   let resObj: any = {};
   user.lectures.map((lecture: ILecture) => {
-    resObj[lecture.name] = lecture.attendance[stdno];
+    resObj[lecture.name] = lecture.attendance[num];
   });
 
   return res.status(200).json({ result: resObj });

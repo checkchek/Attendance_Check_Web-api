@@ -1,18 +1,16 @@
-import SideBar from "@/components/SideBar";
 import { getLectures } from "@/utils/db/apis";
-import { API_URL } from "@/utils/db/apiUrl";
-import { Router, useRouter } from "next/router";
-import QRCode, { QRCodeSVG } from "qrcode.react";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
+const SideBar = styled.div`
   display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 100vh;
+  background-color: rgb(61, 62, 66);
 `;
-
 const Item = styled.div`
   display: flex;
   align-items: center;
@@ -22,10 +20,6 @@ const Item = styled.div`
   color: white;
   border: 1px solid black;
   cursor: pointer;
-`;
-const Main = styled.div`
-  width: 100%;
-  height: 100%;
 `;
 
 interface ILecture {
@@ -40,7 +34,7 @@ export default function Home() {
   const { data, isLoading } = useQuery<ILecture>("lectures", () =>
     getLectures(localStorage.getItem("num"))
   );
-  const goToLecturePage = (lecture: string) => {
+  const goTo = (lecture: string) => {
     router.push(lecture);
   };
 
@@ -66,10 +60,18 @@ export default function Home() {
   console.log(data);
 
   return (
-    <Wrapper>
-      <SideBar />
-
-      <Main></Main>
-    </Wrapper>
+    <SideBar>
+      <Item onClick={() => goTo("/")}>{userName}님 환영합니다.</Item>
+      {data?.lecture_list.map((lecture) => (
+        <Item
+          key={lecture}
+          onClick={() => {
+            goTo(lecture);
+          }}
+        >
+          {lecture}
+        </Item>
+      ))}
+    </SideBar>
   );
 }
