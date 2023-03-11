@@ -3,6 +3,13 @@ import dbConnect from "@/utils/db/dbConnect";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ILecture } from "models/Lecture";
 
+interface ILectureList {
+  name: string;
+  startTime: string;
+  endTime: string;
+  days: string[];
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -12,7 +19,7 @@ export default async function handler(
   const num = req.query.num;
   const user = await User.findOne({ num: num }).populate("lectures");
 
-  const lecture_list: Array<string> = [];
+  const lecture_list: Array<ILectureList> = [];
   let userName;
 
   if (!user) {
@@ -20,7 +27,13 @@ export default async function handler(
   } else {
     userName = user.name;
     user.lectures.map((lecture: ILecture) => {
-      lecture_list.push(lecture.name);
+      const obj: ILectureList = {
+        name: lecture.name,
+        startTime: lecture.startTime,
+        endTime: lecture.endTime,
+        days: lecture.days,
+      };
+      lecture_list.push(obj);
     });
   }
 

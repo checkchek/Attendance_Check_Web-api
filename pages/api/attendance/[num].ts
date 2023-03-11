@@ -15,7 +15,6 @@ export default async function handler(
   dbConnect();
   const num = String(req.query.num);
   const user = await User.findOne({ num: num }).populate("lectures");
-  
   console.log(user);
   let resObj: any = {};
   user.lectures.map((lecture: ILecture) => {

@@ -10,6 +10,7 @@ import dbConnect from "@/utils/db/dbConnect";
 
 type Data = {
   num: string;
+  result: string;
 };
 
 export default async function handler(
@@ -21,9 +22,9 @@ export default async function handler(
   const lectureName = String(req.query.lecture);
   const week = Number(req.query.week);
   console.log("check", num, lectureName);
-
   const lecture = await Lecture.findOne({ name: lectureName });
-  if (!lecture) return res.status(200).json({ num: num });
+
+  if (!lecture) return res.status(200).json({ num: num, result: "error" });
   const attendance_list = { ...lecture.attendance };
   const attendance_copy = [...attendance_list[num]];
   attendance_copy[week] = 0;
@@ -33,7 +34,7 @@ export default async function handler(
   console.log(lecture);
   await lecture.save();
 
-  return res.status(200).json({ num: num });
+  return res.status(200).json({ num: num, result: "success" });
 }
 
 // const today = new Date();

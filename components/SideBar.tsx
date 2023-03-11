@@ -24,7 +24,13 @@ const Item = styled.div`
 
 interface ILecture {
   name: string;
-  lecture_list: Array<string>;
+  lecture_list: Array<ILectureList>;
+}
+interface ILectureList {
+  name: string;
+  startTime: string;
+  endTime: string;
+  days: string[];
 }
 
 export default function Home() {
@@ -37,6 +43,7 @@ export default function Home() {
   const goTo = (lecture: string) => {
     router.push(lecture);
   };
+  console.log(data);
 
   // Localstroage에서 유저 이름 가져오기
   useEffect(() => {
@@ -62,14 +69,14 @@ export default function Home() {
   return (
     <SideBar>
       <Item onClick={() => goTo("/")}>{userName}님 환영합니다.</Item>
-      {data?.lecture_list.map((lecture) => (
+      {data?.lecture_list.map((lecture, idx) => (
         <Item
-          key={lecture}
+          key={idx}
           onClick={() => {
-            goTo(lecture);
+            goTo(lecture.name);
           }}
         >
-          {lecture}
+          {lecture.name}
         </Item>
       ))}
     </SideBar>
