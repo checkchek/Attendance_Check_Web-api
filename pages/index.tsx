@@ -63,8 +63,6 @@ export default function Home() {
 
   // 강의 목록 가져오기
 
-  console.log(data);
-
   return (
     <Wrapper>
       <SideBar />

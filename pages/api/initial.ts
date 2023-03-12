@@ -11,6 +11,9 @@ export default async function handler(
 ) {
   await dbConnect();
 
+  await User.remove({});
+  await Lecture.remove({});
+
   // lecture 초기화 (생성)
   const lecture1: HydratedDocument<ILecture> = new Lecture({
     name: "C언어",

@@ -43,7 +43,6 @@ export default function Home() {
   const goTo = (lecture: string) => {
     router.push(lecture);
   };
-  console.log(data);
 
   // Localstroage에서 유저 이름 가져오기
   useEffect(() => {
@@ -63,8 +62,6 @@ export default function Home() {
   }, [router]);
 
   // 강의 목록 가져오기
-
-  console.log(data);
 
   return (
     <SideBar>
