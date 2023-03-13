@@ -16,8 +16,7 @@ export async function fetchGenerateCode(
   return await res.json();
 }
 
-export async function getStudents(lecture: string) {
-  console.log("test", `${API_URL}/studentList?lecture=${lecture}`);
-  const data = await fetch(`${API_URL}/studentList?lecture=${lecture}`);
-  return data.json();
+export async function getStudents(lectureId: number) {
+  const data = await fetch(`${API_URL}/studentList?lectureId=${lectureId}`);
+  return await data.json();
 }

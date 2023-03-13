@@ -10,7 +10,9 @@ export default async function handler(
   const time = Number(req.query.time);
   const lectureId = Number(req.query.lectureId);
 
-  console.log(lectureId, code, time);
+  if (!(lectureId && code && time)) {
+    return res.status(200).json({ message: "fail" });
+  }
 
   await Code.remove({ lectureId });
   const newCode: HydratedDocument<ICode> = new Code({

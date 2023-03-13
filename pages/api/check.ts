@@ -21,7 +21,6 @@ export default async function handler(
   const num = String(req.query.num);
   const lectureName = String(req.query.lecture);
   const week = Number(req.query.week);
-  console.log("check", num, lectureName);
   const lecture = await Lecture.findOne({ name: lectureName });
 
   if (!lecture) return res.status(200).json({ num: num, result: "error" });
@@ -31,7 +30,6 @@ export default async function handler(
   attendance_list[num] = attendance_copy;
   lecture.attendance = attendance_list;
 
-  console.log(lecture);
   await lecture.save();
 
   return res.status(200).json({ num: num, result: "success" });

@@ -1,8 +1,10 @@
 import SideBar from "@/components/SideBar";
+import StudentBar from "@/components/StudentBar";
 import { fetchGenerateCode, getStudents } from "@/utils/db/apis";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { QRCodeSVG } from "qrcode.react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 
@@ -16,33 +18,21 @@ const Main = styled.div`
   width: 100%;
 `;
 
-const Students = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid red;
-`;
-
 interface IStudents {
-  [num: string]: number[];
+  attendance: {
+    [num: string]: number[];
+  };
+  students: Array<{
+    name: string;
+    num: string;
+  }>;
 }
 
 export default function LecturePage() {
   const router = useRouter();
-  console.log(router);
   const [start, setStart] = useState(false);
   const [code, setCode] = useState(0);
-  const { data, isLoading } = useQuery<IStudents>(
-    "students",
-    () =>
-      getStudents(
-        router.query.lectureName ? String(router.query.lectureName) : ""
-      ),
-    {
-      enabled: !!router.query.lectureName,
-    }
-  );
-
-  console.log(data);
+  const [students, setStudents] = useState<IStudents>();
 
   const generateCode = () => {
     const newCode = Math.random();
@@ -59,17 +49,28 @@ export default function LecturePage() {
     setCode(newCode);
   };
 
+  useEffect(() => {
+    (async () => {
+      const studentData = await getStudents(
+        router.query.lectureId ? Number(router.query.lectureId) : 0
+      );
+      setStudents(studentData);
+    })();
+    generateCode();
+  }, [router]);
+
   return (
     <Wrapper>
       <SideBar />
-      <Students>
-        {data
-          ? Object.keys(data).map((num, idx) => <div key={idx}>{num}</div>)
-          : null}
-      </Students>
+      <StudentBar router={router} />
       <Main>
-        <div>{String(code)}</div>
-        {start ? <QRCodeSVG value={String(code)} size={500} /> : null}
+        <div>{String(code) + `,${router.query.lectureId}`}</div>
+        {start ? (
+          <QRCodeSVG
+            value={String(code) + `,${router.query.lectureId}`}
+            size={300}
+          />
+        ) : null}
         <button
           onClick={() => {
             generateCode();

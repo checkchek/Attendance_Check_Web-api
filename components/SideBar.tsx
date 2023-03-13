@@ -11,6 +11,18 @@ const SideBar = styled.div`
   height: 100vh;
   background-color: rgb(61, 62, 66);
 `;
+
+const Title = styled.div`
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height: 70px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+`;
 const Item = styled.div`
   display: flex;
   align-items: center;
@@ -41,12 +53,8 @@ export default function Home() {
   const { data, isLoading } = useQuery<ILecture>("lectures", () =>
     getLectures(localStorage.getItem("num"))
   );
-  const goTo = (path: string | number, lectureName?: string) => {
-    if (lectureName) {
-      router.push(String(path) + `?lectureName=${lectureName}`);
-    } else {
-      router.push(String(path));
-    }
+  const goTo = (path: string | number) => {
+    router.push(`/${String(path)}`);
   };
 
   // Localstroage에서 유저 이름 가져오기
@@ -70,12 +78,12 @@ export default function Home() {
 
   return (
     <SideBar>
-      <Item onClick={() => goTo("/")}>{userName}님 환영합니다.</Item>
+      <Title onClick={() => goTo("/")}>{userName}님 환영합니다.</Title>
       {data?.lecture_list.map((lecture, idx) => (
         <Item
           key={idx}
           onClick={() => {
-            goTo(lecture.id, lecture.name);
+            goTo(lecture.id);
           }}
         >
           {lecture.name}

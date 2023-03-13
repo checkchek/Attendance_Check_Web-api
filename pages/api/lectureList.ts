@@ -15,7 +15,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   dbConnect();
-  console.log("lectureList");
   const num = req.query.num;
   const user = await User.findOne({ num: num }).populate("lectures");
 

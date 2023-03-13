@@ -16,10 +16,8 @@ export default async function handler(
   }
 
   const curTime = new Date();
-  console.log(findCode);
 
   if (findCode.code === code) {
-    console.log(curTime.getTime() - findCode.time);
     if (curTime.getTime() - findCode.time < 5000) {
       console.log("위치 인증 완료");
       return res.status(200).json({ result: "success" });
