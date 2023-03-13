@@ -6,13 +6,18 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const code = String(req.query.code);
+  const lectureId = Number(req.query.lecture_id);
 
-  const findCode = await Code.findOne({ code: code });
+  const findCode = await Code.findOne({ code, lectureId });
   if (!findCode) {
-    return res.status(200).json({ result: "fail", message: "코드 불일치" });
+    return res
+      .status(200)
+      .json({ result: "fail", message: "유효하지 않는 코드" });
   }
+
   const curTime = new Date();
   console.log(findCode);
+
   if (findCode.code === code) {
     console.log(curTime.getTime() - findCode.time);
     if (curTime.getTime() - findCode.time < 5000) {
@@ -24,5 +29,8 @@ export default async function handler(
         .json({ result: "fail", message: "인증 유효 시간 초과" });
     }
   }
-  return res.status(200).json({ result: "fail", message: "코드 불일치" });
+
+  return res
+    .status(200)
+    .json({ result: "fail", message: "유효하지 않는 코드" });
 }

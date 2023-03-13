@@ -5,12 +5,19 @@ export async function getLectures(userNum: string | null) {
   return data.json();
 }
 
-export async function fetchGenerateCode(code: string, time: number) {
-  const res = await fetch(`${API_URL}/qr/generate?code=${code}&time=${time}`);
+export async function fetchGenerateCode(
+  lectureId: number,
+  code: string,
+  time: number
+) {
+  const res = await fetch(
+    `${API_URL}/qr/generate?lectureId=${lectureId}&code=${code}&time=${time}`
+  );
   return await res.json();
 }
 
 export async function getStudents(lecture: string) {
-  const data = await fetch(`${API_URL}/studentList?lecture=${lecture}}`);
-  return await data.json();
+  console.log("test", `${API_URL}/studentList?lecture=${lecture}`);
+  const data = await fetch(`${API_URL}/studentList?lecture=${lecture}`);
+  return data.json();
 }

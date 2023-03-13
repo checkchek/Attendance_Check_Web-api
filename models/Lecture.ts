@@ -14,6 +14,7 @@ export interface IAttendance {
 }
 
 export interface ILecture extends Document {
+  id: number;
   name: string;
   students: HydratedDocument<IUser>[];
   attendance: IAttendance;
@@ -23,6 +24,7 @@ export interface ILecture extends Document {
 }
 
 const lectureSchema = new Schema<ILecture>({
+  id: { type: Number, required: true },
   name: { type: String, required: true },
   students: [{ type: Schema.Types.ObjectId, ref: "User" }],
   attendance: Object,

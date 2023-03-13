@@ -27,6 +27,7 @@ interface ILecture {
   lecture_list: Array<ILectureList>;
 }
 interface ILectureList {
+  id: number;
   name: string;
   startTime: string;
   endTime: string;
@@ -40,8 +41,12 @@ export default function Home() {
   const { data, isLoading } = useQuery<ILecture>("lectures", () =>
     getLectures(localStorage.getItem("num"))
   );
-  const goTo = (lecture: string) => {
-    router.push(lecture);
+  const goTo = (path: string | number, lectureName?: string) => {
+    if (lectureName) {
+      router.push(String(path) + `?lectureName=${lectureName}`);
+    } else {
+      router.push(String(path));
+    }
   };
 
   // Localstroage에서 유저 이름 가져오기
@@ -70,7 +75,7 @@ export default function Home() {
         <Item
           key={idx}
           onClick={() => {
-            goTo(lecture.name);
+            goTo(lecture.id, lecture.name);
           }}
         >
           {lecture.name}

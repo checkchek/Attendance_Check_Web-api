@@ -32,9 +32,6 @@ interface ILecture {
   name: string;
   lecture_list: Array<string>;
 }
-interface IStudents {
-  [num: string]: number[];
-}
 
 export default function Home() {
   const [userName, setUserName] = useState("알 수 없음");
@@ -43,8 +40,7 @@ export default function Home() {
   const { data, isLoading } = useQuery<ILecture>("lectures", () =>
     getLectures(localStorage.getItem("num"))
   );
-  const { data: studentsData, isLoading: studentsLoading } =
-    useQuery<IStudents>("students", () => {});
+
   const goToLecturePage = (lecture: string) => {
     router.push(lecture);
   };
@@ -65,8 +61,6 @@ export default function Home() {
       console.log(e);
     }
   }, [router]);
-
-  // 강의 목록 가져오기
 
   return (
     <Wrapper>

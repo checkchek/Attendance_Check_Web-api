@@ -16,18 +16,21 @@ export default async function handler(
 
   // lecture 초기화 (생성)
   const lecture1: HydratedDocument<ILecture> = new Lecture({
+    id: 1,
     name: "C언어",
     days: ["mon"],
     startTime: "09:00",
     endTime: "12:00",
   });
   const lecture2: HydratedDocument<ILecture> = new Lecture({
+    id: 2,
     name: "자료구조",
     days: ["tue", "thu"],
     startTime: "15:00",
     endTime: "16:00",
   });
   const lecture3: HydratedDocument<ILecture> = new Lecture({
+    id: 3,
     name: "네트워크",
     days: ["wed", "fri"],
     startTime: "09:00",

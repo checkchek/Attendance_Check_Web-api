@@ -8,12 +8,14 @@ export default async function handler(
 ) {
   const code = String(req.query.code);
   const time = Number(req.query.time);
+  const lectureId = Number(req.query.lectureId);
 
-  console.log(code, time);
+  console.log(lectureId, code, time);
 
-  await Code.remove({});
+  await Code.remove({ lectureId });
   const newCode: HydratedDocument<ICode> = new Code({
-    time: time,
+    lectureId,
+    time,
     code,
   });
   await newCode.save();

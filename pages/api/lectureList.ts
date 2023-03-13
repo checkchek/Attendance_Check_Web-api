@@ -27,13 +27,7 @@ export default async function handler(
   } else {
     userName = user.name;
     user.lectures.map((lecture: ILecture) => {
-      const obj: ILectureList = {
-        name: lecture.name,
-        startTime: lecture.startTime,
-        endTime: lecture.endTime,
-        days: lecture.days,
-      };
-      lecture_list.push(obj);
+      lecture_list.push(lecture);
     });
   }
 
