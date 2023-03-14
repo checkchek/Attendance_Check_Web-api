@@ -1,4 +1,5 @@
 import { getLectures } from "@/utils/db/apis";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -13,7 +14,7 @@ const SideBar = styled.div`
 `;
 
 const Title = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,6 +25,7 @@ const Title = styled.div`
   text-align: center;
 `;
 const Item = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,6 +34,17 @@ const Item = styled.div`
   color: white;
   border: 1px solid black;
   cursor: pointer;
+`;
+
+const Highlight = styled(motion.div)`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
 `;
 
 interface ILecture {
@@ -56,6 +69,7 @@ export default function Home() {
   const goTo = (path: string | number) => {
     router.push(`/${String(path)}`);
   };
+  console.log(router.query.lectureId);
 
   // Localstroage에서 유저 이름 가져오기
   useEffect(() => {
@@ -86,6 +100,9 @@ export default function Home() {
             goTo(lecture.id);
           }}
         >
+          {String(lecture.id) === router.query.lectureId ? (
+            <Highlight layoutId="highlight"></Highlight>
+          ) : null}
           {lecture.name}
         </Item>
       ))}

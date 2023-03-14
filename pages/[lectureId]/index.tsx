@@ -1,6 +1,7 @@
 import SideBar from "@/components/SideBar";
 import StudentBar from "@/components/StudentBar";
 import { fetchGenerateCode, getStudents } from "@/utils/db/apis";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { QRCodeSVG } from "qrcode.react";
@@ -13,11 +14,26 @@ const Wrapper = styled.div`
 `;
 const Main = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
 `;
-
+const QrBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30vw;
+  height: 30vw;
+`;
+const Button = styled(motion.button)`
+  border: 1px solid rgb(152, 152, 152);
+  margin-top: 2em;
+  width: 150px;
+  height: 50px;
+  background-color: white;
+  cursor: pointer;
+`;
 interface IStudents {
   attendance: {
     [num: string]: number[];
@@ -64,20 +80,24 @@ export default function LecturePage() {
       <SideBar />
       <StudentBar router={router} />
       <Main>
-        <div>{String(code) + `,${router.query.lectureId}`}</div>
-        {start ? (
-          <QRCodeSVG
-            value={String(code) + `,${router.query.lectureId}`}
-            size={300}
-          />
-        ) : null}
-        <button
+        {/* <div>{String(code) + `,${router.query.lectureId}`}</div> */}
+        <QrBox>
+          {start ? (
+            <QRCodeSVG
+              value={String(code) + `,${router.query.lectureId}`}
+              size={100000}
+            />
+          ) : null}
+        </QrBox>
+        <Button
+          whileHover={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+          whileTap={{ backgroundColor: "rgba(0,0,0,0.3)" }}
           onClick={() => {
             generateCode();
           }}
         >
           QR Code 생성
-        </button>
+        </Button>
       </Main>
     </Wrapper>
   );
