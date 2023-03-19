@@ -146,15 +146,17 @@ export default function StudentPage() {
               }
               bgcolor={valToColor(v)}
               onClick={() => {
-                setAttendance((cur) => {
-                  const copy = [...cur];
-                  if (copy[idx] >= 2) {
-                    copy[idx] = -1;
-                  } else {
-                    copy[idx] += 1;
-                  }
-                  return copy;
-                });
+                if (week >= idx + 1) {
+                  setAttendance((cur) => {
+                    const copy = [...cur];
+                    if (copy[idx] >= 2) {
+                      copy[idx] = -1;
+                    } else {
+                      copy[idx] += 1;
+                    }
+                    return copy;
+                  });
+                }
               }}
             >
               {idx + 1}
