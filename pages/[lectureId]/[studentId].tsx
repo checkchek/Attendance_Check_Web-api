@@ -16,6 +16,7 @@ const Main = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 const Box = styled.div<{ bgcolor: string }>`
   display: flex;
@@ -23,7 +24,7 @@ const Box = styled.div<{ bgcolor: string }>`
   justify-content: center;
   width: 100px;
   height: 100px;
-  border: 1px solid rgb(152, 152, 152);
+  border: 1px solid #95a5a6;
   background-color: ${(props) => props.bgcolor};
   margin: 4px;
   color: white;
@@ -42,15 +43,35 @@ const Attendance = styled.div`
   margin: 0 auto;
 `;
 const Button = styled(motion.button)`
-  border: 1px solid rgb(152, 152, 152);
+  border: 1px solid #95a5a6;
   margin-top: 2em;
   width: 150px;
   height: 50px;
   background-color: white;
   cursor: pointer;
 `;
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 100px;
+  bottom: -100px;
+`;
+const Rect = styled.div<{ color: string }>`
+  width: 30px;
+  height: 30px;
+  background-color: ${(props) => props.color};
+  margin-right: 10px;
+  margin-bottom: 3px;
+  box-sizing: border-box;
+`;
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 export default function StudentPage() {
+  const today = new Date();
   const router = useRouter();
   const { studentId, lectureId } = router.query;
   const [attendance, setAttendance] = useState<number[]>([]);
@@ -58,17 +79,25 @@ export default function StudentPage() {
   const valToColor = (v: number) => {
     switch (v) {
       case -1:
-        return "rgb(152,152,152)";
+        return "#95a5a6";
       case 0:
-        return "green";
+        return "#27ae60";
       case 1:
-        return "yellow";
+        return "#f1c40f";
       case 2:
-        return "red";
+        return "#e74c3c";
       default:
-        return "rgb(152,152,152)";
+        return "#95a5a6";
     }
   };
+
+  const getWeek = (date: Date) => {
+    const currentDate = date.getTime();
+    const firstDay = new Date("2023-03-02").getTime();
+    const one = 84000000;
+    return Math.floor((currentDate - firstDay) / one / 7) + 1;
+  };
+  const week = getWeek(today); // 주차
 
   const updateAttendance = () => {
     const data = {
@@ -112,6 +141,9 @@ export default function StudentPage() {
           {attendance.map((v, idx) => (
             <Box
               key={idx}
+              style={
+                week === idx + 1 ? { border: "4px solid #2c3e50" } : undefined
+              }
               bgcolor={valToColor(v)}
               onClick={() => {
                 setAttendance((cur) => {
@@ -136,6 +168,28 @@ export default function StudentPage() {
         >
           save
         </Button>
+        <Info>
+          <Row>
+            <Rect color="#95a5a6" />
+            미확인
+          </Row>
+          <Row>
+            <Rect color="#27ae60" />
+            출석
+          </Row>
+          <Row>
+            <Rect color="#f1c40f" />
+            지각
+          </Row>
+          <Row>
+            <Rect color="#e74c3c" />
+            결석
+          </Row>
+          <Row>
+            <Rect color="none" style={{ border: "2px solid #2c3e50" }} />
+            현재 주차
+          </Row>
+        </Info>
       </Main>
     </Wrapper>
   );

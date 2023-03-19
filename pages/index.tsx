@@ -1,8 +1,6 @@
 import SideBar from "@/components/SideBar";
 import { getLectures } from "@/utils/db/apis";
-import { API_URL } from "@/utils/db/apiUrl";
-import { Router, useRouter } from "next/router";
-import QRCode, { QRCodeSVG } from "qrcode.react";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -13,16 +11,6 @@ const Wrapper = styled.div`
   display: flex;
 `;
 
-const Item = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-  background-color: rgb(61, 62, 66);
-  color: white;
-  border: 1px solid black;
-  cursor: pointer;
-`;
 const Main = styled.div`
   height: 100%;
   width: 100%;

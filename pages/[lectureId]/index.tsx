@@ -41,6 +41,10 @@ const Button = styled(motion.button)`
 const Timer = styled(motion.svg)`
   position: absolute;
 `;
+const Row = styled.div`
+  display: flex;
+  gap: 20px;
+`;
 interface IStudents {
   attendance: {
     [num: string]: number[];
@@ -58,8 +62,9 @@ export default function LecturePage() {
   const [students, setStudents] = useState<IStudents>();
   const { width: windowWidth } = useWindowSize();
   const controls = useAnimationControls();
+  const [auto, setAuto] = useState(false);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
 
-  console.log(windowWidth);
   const generateCode = () => {
     const newCode = Math.random();
     setStart(true);
@@ -75,9 +80,35 @@ export default function LecturePage() {
     setCode(newCode);
   };
 
-  useEffect(() => {
+  const onClickGenerate = async () => {
     generateCode();
-  }, []);
+    await controls.start({
+      strokeDashoffset: windowWidth * 0.3 * 4,
+      transition: {
+        type: "tween",
+      },
+    });
+    await controls.start({
+      stroke: "green",
+      strokeDashoffset: 0,
+      transition: {
+        duration: 5,
+      },
+    });
+    await controls.start({
+      stroke: "red",
+    });
+  };
+
+  useEffect(() => {
+    if (auto) {
+      onClickGenerate();
+      const id = setInterval(onClickGenerate, 5000);
+      setIntervalId(id);
+    } else {
+      clearInterval(intervalId);
+    }
+  }, [auto]);
 
   return (
     <Wrapper>
@@ -85,7 +116,6 @@ export default function LecturePage() {
       <StudentBar router={router} />
       <Main>
         {/* <div>{String(code) + `,${router.query.lectureId}`}</div> */}
-
         <QrBox>
           {start ? (
             <QRCodeSVG
@@ -107,31 +137,28 @@ export default function LecturePage() {
             />
           </Timer>
         </QrBox>
-        <Button
-          whileHover={{ backgroundColor: "rgba(0,0,0,0.1)" }}
-          whileTap={{ backgroundColor: "rgba(0,0,0,0.3)" }}
-          onClick={async () => {
-            generateCode();
-            await controls.start({
-              strokeDashoffset: windowWidth * 0.3 * 4,
-              transition: {
-                type: "tween",
-              },
-            });
-            await controls.start({
-              stroke: "green",
-              strokeDashoffset: 0,
-              transition: {
-                duration: 5,
-              },
-            });
-            await controls.start({
-              stroke: "red",
-            });
-          }}
-        >
-          QR Code 생성
-        </Button>
+        <Row>
+          <Button
+            whileHover={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+            whileTap={{ backgroundColor: "rgba(0,0,0,0.3)" }}
+            onClick={() => {
+              setAuto(false);
+              onClickGenerate();
+            }}
+          >
+            QR Code 생성
+          </Button>
+          <Button
+            whileHover={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+            whileTap={{ backgroundColor: "rgba(0,0,0,0.3)" }}
+            onClick={() => {
+              setAuto((cur) => !cur);
+            }}
+            style={auto ? { border: "3px solid black" } : undefined}
+          >
+            자동생성
+          </Button>
+        </Row>
       </Main>
     </Wrapper>
   );

@@ -10,7 +10,7 @@ const SideBar = styled.div`
   flex-direction: column;
   width: 200px;
   height: 100vh;
-  background-color: rgb(61, 62, 66);
+  background-color: #7f8c8d;
 `;
 
 const Title = styled.div`
@@ -23,6 +23,7 @@ const Title = styled.div`
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   width: 100%;
   text-align: center;
+  cursor: pointer;
 `;
 const Item = styled.div`
   position: relative;
@@ -30,9 +31,8 @@ const Item = styled.div`
   align-items: center;
   justify-content: center;
   height: 100px;
-  background-color: rgb(61, 62, 66);
+  background-color: #7f8c8d;
   color: white;
-  border: 1px solid black;
   cursor: pointer;
 `;
 
@@ -85,7 +85,7 @@ export default function Home() {
     } catch (e) {
       console.log(e);
     }
-  }, [router]);
+  }, []);
 
   return (
     <SideBar>
