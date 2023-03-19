@@ -57,7 +57,7 @@ interface IStudents {
 
 export default function LecturePage() {
   const router = useRouter();
-  const [start, setStart] = useState(false);
+  const [isThereQr, setIsThereQr] = useState(false);
   const [code, setCode] = useState(0);
   const [students, setStudents] = useState<IStudents>();
   const { width: windowWidth } = useWindowSize();
@@ -67,7 +67,7 @@ export default function LecturePage() {
 
   const generateCode = () => {
     const newCode = Math.random();
-    setStart(true);
+    setIsThereQr(true);
     const generateTime = new Date();
     if (router.query.lectureId) {
       fetchGenerateCode(
@@ -76,7 +76,6 @@ export default function LecturePage() {
         generateTime.getTime()
       );
     }
-
     setCode(newCode);
   };
 
@@ -117,13 +116,15 @@ export default function LecturePage() {
       <Main>
         {/* <div>{String(code) + `,${router.query.lectureId}`}</div> */}
         <QrBox>
-          {start ? (
+          {isThereQr ? (
             <QRCodeSVG
               value={String(code) + `,${router.query.lectureId}`}
               width="90%"
               height="90%"
             ></QRCodeSVG>
-          ) : null}
+          ) : (
+            <div>QR 코드를 생성하세요.</div>
+          )}
           <Timer width={"100%"} height={"100%"}>
             <motion.rect
               width={"100%"}

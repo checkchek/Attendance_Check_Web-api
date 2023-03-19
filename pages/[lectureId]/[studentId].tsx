@@ -119,19 +119,20 @@ export default function StudentPage() {
   };
 
   useEffect(() => {
+    const getAttendance = async () => {
+      const attendanceData = await (
+        await fetch(`${API_URL}/attendance/${studentId}?lectureId=${lectureId}`)
+      ).json();
+      setAttendance(attendanceData.attendance[String(studentId)]);
+    };
+
     if (studentId && lectureId) {
       (async () => {
         await getAttendance();
       })();
     }
-  }, [router]);
+  }, [router, studentId, lectureId]);
 
-  const getAttendance = async () => {
-    const attendanceData = await (
-      await fetch(`${API_URL}/attendance/${studentId}?lectureId=${lectureId}`)
-    ).json();
-    setAttendance(attendanceData.attendance[String(studentId)]);
-  };
   return (
     <Wrapper>
       <SideBar />
