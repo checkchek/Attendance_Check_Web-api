@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const code = String(req.query.code);
-  const lectureId = Number(req.query.lecture_id);
+  const lectureId = Number(req.query.lectureId);
 
   const findCode = await Code.findOne({ code, lectureId });
   if (!findCode) {
@@ -20,7 +20,7 @@ export default async function handler(
   if (findCode.code === code) {
     if (curTime.getTime() - findCode.time < 5000) {
       console.log("위치 인증 완료");
-      return res.status(200).json({ result: "success" });
+      return res.status(200).json({ result: "success", message: "인증 완료" });
     } else {
       return res
         .status(200)
