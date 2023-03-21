@@ -10,7 +10,6 @@ import Code, { ICode } from "@/models/Code";
 */
 
 type Data = {
-  num: string;
   result: string;
 };
 
@@ -22,32 +21,19 @@ export default async function handler(
   const num = String(req.query.num);
   const lectureId = Number(req.query.lectureId);
   const week = Number(req.query.week) - 1;
-  const qrcode = String(req.query.qrcode);
 
   const lecture = await Lecture.findOne({ id: lectureId });
-  const code: ICode | null = await Code.findOne({
-    code: qrcode,
-    lectureId,
-  });
-
+  console.log(lecture);
   if (!lecture) {
-    return res.status(200).json({ num: num, result: "lecture error" });
-  }
-  if (!code) {
-    return res.status(200).json({ num: num, result: "code error" });
+    return res.status(200).json({ result: "lecture not found." });
   }
 
-  const now = new Date().getTime();
   const attendance_list = { ...lecture.attendance };
   const attendance_copy = [...attendance_list[num]];
-  if (now - code.time < 5000) {
-    attendance_copy[week] = 0;
-  } else if (now - code.time < 1000 * 60 * 10) {
-    return res.status(200).json({ num: num, result: "QR code 유효시간 초과" });
-  }
+  attendance_copy[week] = 0;
   attendance_list[num] = attendance_copy;
   lecture.attendance = attendance_list;
   await lecture.save();
 
-  return res.status(200).json({ num: num, result: "success" });
+  return res.status(200).json({ result: "success" });
 }

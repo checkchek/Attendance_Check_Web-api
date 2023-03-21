@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ILecture } from "models/Lecture";
 
 interface ILectureList {
+  id: number;
   name: string;
   startTime: string;
   endTime: string;

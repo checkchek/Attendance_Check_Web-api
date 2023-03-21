@@ -11,6 +11,7 @@ export default async function handler(
   dbConnect();
   const num = String(req.query.num);
   const lectureId = req.query.lectureId;
+  console.log(lectureId);
 
   const user = await User.findOne({ num: num }).populate("lectures");
 
