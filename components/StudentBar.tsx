@@ -23,6 +23,7 @@ const Student = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  font-size: 14px;
 `;
 
 const Highlight = styled(motion.div)`
@@ -54,6 +55,7 @@ const Title = styled.div`
   width: 100%;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.3);
+  font-size: 18px;
 `;
 
 interface IStudents {
@@ -66,6 +68,13 @@ interface IStudents {
   }>;
 }
 
+const getWeek = (date: Date) => {
+  const currentDate = date.getTime();
+  const firstDay = new Date("2023-03-02").getTime();
+  const one = 84000000;
+  return Math.floor((currentDate - firstDay) / one / 7) + 1;
+};
+
 export default function StudentBar({ router }: { router: NextRouter }) {
   const [students, setStudents] = useState<IStudents>();
   const { lectureId, studentId } = router.query;
@@ -76,21 +85,29 @@ export default function StudentBar({ router }: { router: NextRouter }) {
         router.query.lectureId ? Number(router.query.lectureId) : 0
       );
       setStudents(studentData);
+      console.log(studentData);
     })();
   }, [router]);
 
+  const week = getWeek(new Date());
+
   return (
     <Students>
-      <Title>수강생 목록</Title>
+      <Title>수강생 목록({students?.students?.length})</Title>
       {students?.students
         ? students.students.map((obj, idx) => (
             <StyledLink key={idx} href={`/${lectureId}/${obj.num}`}>
-              <Student>
+              <Student
+                style={
+                  students.attendance[obj.num][week - 1] === 0
+                    ? { backgroundColor: "green" }
+                    : undefined
+                }
+              >
                 {studentId === obj.num ? (
                   <Highlight layoutId="studentHighlight"></Highlight>
                 ) : null}
-
-                {obj.name}
+                {obj.name} ({obj.num})
               </Student>
             </StyledLink>
           ))

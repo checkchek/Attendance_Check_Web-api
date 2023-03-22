@@ -1,11 +1,11 @@
 import { getLectures } from "@/utils/db/apis";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 
-const SideBar = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 200px;
@@ -58,9 +58,9 @@ interface ILectureList {
   endTime: string;
   days: string[];
 }
-
-export default function Home() {
-  const [userName, setUserName] = useState("알 수 없음");
+function SideBar() {
+  console.log("sidebar");
+  const [userName, setUserName] = useState("");
   const [userNum, setUserNum] = useState("-1");
   const router = useRouter();
   const { data, isLoading } = useQuery<ILecture>("lectures", () =>
@@ -85,10 +85,10 @@ export default function Home() {
     } catch (e) {
       console.log(e);
     }
-  }, [router]);
+  }, []);
 
   return (
-    <SideBar>
+    <Wrapper>
       <Title onClick={() => goTo("/")}>{userName}님 환영합니다.</Title>
       {data?.lecture_list.map((lecture, idx) => (
         <Item
@@ -103,6 +103,7 @@ export default function Home() {
           {lecture.name}
         </Item>
       ))}
-    </SideBar>
+    </Wrapper>
   );
 }
+export default React.memo(SideBar);
