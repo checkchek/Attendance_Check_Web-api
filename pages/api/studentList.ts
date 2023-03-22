@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const lectureId = req.query.lectureId;
+  const lectureId = Number(req.query.lectureId);
   const findLecture = await Lecture.findOne({
     id: lectureId,
   }).populate("students");
