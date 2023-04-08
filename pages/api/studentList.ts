@@ -9,6 +9,7 @@ export default async function handler(
   const findLecture = await Lecture.findOne({
     id: lectureId,
   }).populate("students");
+  console.log(findLecture);
 
   if (!findLecture) return res.status(200).json({ result: "none" });
 

@@ -8,13 +8,11 @@ import styled from "styled-components";
 const Students = styled.div`
   position: relative;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   font-size: 1.2rem;
   color: white;
   width: 200px;
   background-color: rgb(152, 152, 152);
+  overflow: scroll;
 `;
 const Student = styled.div`
   position: relative;
@@ -22,7 +20,7 @@ const Student = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  height: 60px;
   font-size: 14px;
 `;
 
@@ -78,7 +76,7 @@ const getWeek = (date: Date) => {
 export default function StudentBar({ router }: { router: NextRouter }) {
   const [students, setStudents] = useState<IStudents>();
   const { lectureId, studentId } = router.query;
-
+  console.log(students);
   useEffect(() => {
     (async () => {
       const studentData = await getStudents(
