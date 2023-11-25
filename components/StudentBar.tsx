@@ -68,7 +68,7 @@ interface IStudents {
 
 const getWeek = (date: Date) => {
   const currentDate = date.getTime();
-  const firstDay = new Date("2023-03-02").getTime();
+  const firstDay = new Date("2023-09-01").getTime();
   const one = 84000000;
   return Math.floor((currentDate - firstDay) / one / 7) + 1;
 };

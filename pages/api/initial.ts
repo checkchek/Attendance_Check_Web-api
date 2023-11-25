@@ -61,7 +61,7 @@ export default async function handler(
     num: "20183333",
     id: "std3",
     pw: "std3",
-    lectures: [lecture2, lecture3],
+    lectures: [lecture1, lecture3],
   });
   const user4: HydratedDocument<IUser> = new User({
     name: "학생4",
